@@ -1,0 +1,11 @@
+@import './fonts.scss';
+
+:root {
+    --font-family-main: Inter, 'Times New Roman';
+
+    // Размеры
+    --toolbar-height: 50px;
+    --border-radius: 5px;
+
+    --time: 0.3s ease-in-out;
+}

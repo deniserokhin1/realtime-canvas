@@ -1,0 +1,22 @@
+.container {
+    flex-grow: 1;
+    position: relative;
+}
+
+canvas {
+    position: absolute;
+    inset: 0;
+    background: #fff;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.chat {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    left: 1390px;
+    background: var(--container-color);
+    border-radius: var(--border-radius);
+}

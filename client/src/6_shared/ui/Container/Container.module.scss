@@ -1,0 +1,11 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: var(--toolbar-height);
+    background: var(--container-color);
+    border-radius: var(--border-radius);
+    font-family: var(--font-family-main);
+    color: var(--font-color);
+    transition: all var(--time);
+}
