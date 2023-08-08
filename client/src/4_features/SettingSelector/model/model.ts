@@ -1,4 +1,4 @@
-export type TypeInput = 'color' | 'number'
+export type TypeInput = 'color' | 'number' | 'string'
 
 export interface ISettings {
     fillColor: { text: string; typeInput: TypeInput }

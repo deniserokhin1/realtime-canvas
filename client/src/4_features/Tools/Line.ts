@@ -8,8 +8,14 @@ export default class Line extends Tool {
     startY: number
     saved: string
 
-    constructor(canvas: HTMLCanvasElement, x: number, y: number) {
-        super(canvas)
+    constructor(
+        canvas: HTMLCanvasElement,
+        x: number,
+        y: number,
+        socket: WebSocket,
+        id: string
+    ) {
+        super(canvas, socket, id)
         this.listen()
         this.offsetX = x
         this.offsetY = y

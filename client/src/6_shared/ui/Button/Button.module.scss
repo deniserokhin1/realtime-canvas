@@ -1,0 +1,38 @@
+.container {
+    padding: 8px 8px;
+    border: none;
+    color: var(--font-color);
+    transition: all var(--time);
+    font-family: var(--font-family-main);
+    cursor: pointer;
+    pointer-events: auto;
+    opacity: 0.5;
+
+    &.isActive {
+        opacity: 1;
+    }
+}
+
+.background {
+    padding: 8px 16px;
+    background: var(--container-color);
+    border-radius: var(--border-radius);
+
+    &:hover {
+        background: #056af7;
+    }
+}
+
+.clear {
+    background: transparent;
+    border: none;
+    color: var(--font-color);
+
+    &:hover {
+        transform: scale(1.05);
+    }
+
+    &:active {
+        transform: scale(1);
+    }
+}

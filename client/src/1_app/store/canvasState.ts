@@ -6,9 +6,24 @@ class CanvasState {
     offsetY: number
     undoList: string[] = []
     redoList: string[] = []
+    username: string = null
+    socket: WebSocket = null
+    session: string = null
 
     constructor() {
         makeAutoObservable(this)
+    }
+
+    setUserName(name: string) {
+        this.username = name
+    }
+
+    setSession(id: string) {
+        this.session = id
+    }
+
+    setSocket(socket: WebSocket) {
+        this.socket = socket
     }
 
     setCanvas(canvas: HTMLCanvasElement) {

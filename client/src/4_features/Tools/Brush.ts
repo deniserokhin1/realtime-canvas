@@ -6,11 +6,9 @@ export default class Brush extends Tool {
     offsetX: number
     offsetY: number
 
-    constructor(canvas: HTMLCanvasElement, x: number, y: number) {
-        super(canvas)
+    constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
+        super(canvas, socket, id)
         this.listen()
-        this.offsetX = x
-        this.offsetY = y
     }
 
     listen() {
@@ -21,23 +19,46 @@ export default class Brush extends Tool {
 
     mouseUpHandler(e: MouseEvent) {
         this.mouseDown = false
+
+        this.socket.send(
+            JSON.stringify({
+                method: 'draw',
+                id: this.session,
+                figure: {
+                    type: 'finish',
+                },
+            })
+        )
     }
 
     mouseDownHandler(e: MouseEvent) {
         this.mouseDown = true
         this.ctx.beginPath()
+        const target = e.target as HTMLElement
+        this.offsetX = target.offsetLeft
+        this.offsetY = target.offsetTop
         this.ctx.moveTo(e.pageX - this.offsetX, e.pageY - this.offsetY)
     }
 
     mouseMoveHandler(e: MouseEvent) {
         if (!this.mouseDown) return
-        this.draw(e.pageX - this.offsetX, e.pageY - this.offsetY)
+        this.socket.send(
+            JSON.stringify({
+                method: 'draw',
+                id: this.session,
+                figure: {
+                    type: 'brush',
+                    x: e.pageX - this.offsetX,
+                    y: e.pageY - this.offsetY,
+                },
+            })
+        )
     }
 
-    draw(x: number, y: number) {
-        this.ctx.lineTo(x, y)
-        this.ctx.stroke()
-        this.ctx.strokeStyle = toolState.strokeColor
-        this.ctx.lineWidth = toolState.lineWidth
+    static draw(ctx: CanvasRenderingContext2D, x: number, y: number) {
+        ctx.lineTo(x, y)
+        ctx.stroke()
+        ctx.strokeStyle = toolState.strokeColor
+        ctx.lineWidth = toolState.lineWidth
     }
 }

@@ -1,7 +1,7 @@
 import { Toolbar } from '3_widgets/Toolbar'
 import style from './MainPage.module.scss'
 import type { FC } from 'react'
-import { Canvas } from '3_widgets/Canvas'
+import Canvas from '3_widgets/Canvas/ui/Canvas'
 
 interface MainPageProps {}
 

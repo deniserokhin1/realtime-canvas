@@ -5,8 +5,14 @@ export default class Washer extends Brush {
     offsetX: number
     offsetY: number
 
-    constructor(canvas: HTMLCanvasElement, x: number, y: number) {
-        super(canvas, x, y)
+    constructor(
+        canvas: HTMLCanvasElement,
+        x: number,
+        y: number,
+        socket: WebSocket,
+        id: string
+    ) {
+        super(canvas, socket, id)
     }
 
     draw(x: number, y: number) {

@@ -1,9 +1,9 @@
-import { ITools, tools } from '../model/types'
+import { ITools, tools } from '../model/model'
 import { FC } from 'react'
-import { Tool } from '6_shared/ui/Tool'
-import { useCanvasState } from '1_app/store/selectors/useCanvasState'
 import { buttonHandlerSelector } from '../../lib/buttonHandlerSelector'
 import { observer } from 'mobx-react-lite'
+import { Button } from '6_shared/ui/Button'
+import toolState from '1_app/store/toolState'
 
 interface ToolSelectorProps {
     type: keyof ITools
@@ -11,11 +11,11 @@ interface ToolSelectorProps {
 
 export const ToolSelector: FC<ToolSelectorProps> = observer((props) => {
     const { type } = props
-    const { canvas, offsetX: x, offsetY: y } = useCanvasState()
+    const { activeTool } = toolState
 
-    console.log('canvas:', canvas);
+    const isActive = activeTool === type
 
-    const handler = buttonHandlerSelector(type, canvas, x, y)
+    const handler = buttonHandlerSelector(type)
 
-    return <Tool onClick={handler} children={tools[type]} />
+    return <Button isActive={isActive} onClick={handler} children={tools[type]} />
 })

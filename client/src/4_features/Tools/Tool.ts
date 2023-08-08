@@ -3,9 +3,20 @@ import toolState from '1_app/store/toolState'
 export default class Tool {
     canvas: HTMLCanvasElement
     ctx: CanvasRenderingContext2D
-    constructor(canvas: HTMLCanvasElement) {
+    socket: WebSocket
+    session: string
+
+    constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
         this.canvas = canvas
         this.ctx = canvas.getContext('2d')
+        this.socket = socket
+        this.session = id
+
+        // if (!toolState.tool) {
+        //     this.ctx.fillStyle = '#fff'
+        //     this.ctx.fillRect(0, 0, canvas.width, canvas.height)
+        // }
+
         this.destroyEvent()
         this.initParam()
     }

@@ -1,3 +1,4 @@
+import toolState from '1_app/store/toolState'
 import Tool from './Tool'
 
 export default class Rect extends Tool {
@@ -7,12 +8,12 @@ export default class Rect extends Tool {
     startX: number
     startY: number
     saved: string
+    width: number
+    height: number
 
-    constructor(canvas: HTMLCanvasElement, x: number, y: number) {
-        super(canvas)
+    constructor(canvas: HTMLCanvasElement, socket: WebSocket, id: string) {
+        super(canvas, socket, id)
         this.listen()
-        this.offsetX = x
-        this.offsetY = y
     }
 
     listen() {
@@ -23,11 +24,32 @@ export default class Rect extends Tool {
 
     mouseUpHandler(e: MouseEvent) {
         this.mouseDown = false
+
+        this.socket.send(
+            JSON.stringify({
+                method: 'draw',
+                id: this.session,
+                figure: {
+                    type: 'rectangle',
+                    x: this.startX,
+                    y: this.startY,
+                    width: this.width,
+                    height: this.height,
+                    fillColor: toolState.fillColor,
+                    strokeColor: toolState.strokeColor,
+                },
+            })
+        )
     }
 
     mouseDownHandler(e: MouseEvent) {
         this.mouseDown = true
         this.ctx.beginPath()
+        this.width = 0
+        this.height = 0
+        const target = e.target as HTMLElement
+        this.offsetX = target.offsetLeft
+        this.offsetY = target.offsetTop
         this.startX = e.pageX - this.offsetX
         this.startY = e.pageY - this.offsetY
         this.saved = this.canvas.toDataURL()
@@ -38,9 +60,9 @@ export default class Rect extends Tool {
 
         let currentX = e.pageX - this.offsetX
         let currentY = e.pageY - this.offsetY
-        let width = currentX - this.startX
-        let height = currentY - this.startY
-        this.draw(this.startX, this.startY, width, height)
+        this.width = currentX - this.startX
+        this.height = currentY - this.startY
+        this.draw(this.startX, this.startY, this.width, this.height)
     }
 
     draw(x: number, y: number, w: number, h: number) {
@@ -54,5 +76,22 @@ export default class Rect extends Tool {
             this.ctx.fill()
             this.ctx.stroke()
         }
+    }
+
+    static staticDraw(
+        ctx: CanvasRenderingContext2D,
+        x: number,
+        y: number,
+        w: number,
+        h: number,
+        fillColor: string,
+        strokeColor: string
+    ) {
+        ctx.beginPath()
+        ctx.fillStyle = fillColor
+        ctx.strokeStyle = strokeColor
+        ctx.rect(x, y, w, h)
+        ctx.fill()
+        ctx.stroke()
     }
 }
